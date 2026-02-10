@@ -94,6 +94,7 @@ fun AllCylindersScreen(
                 title = {
                     Text(
                         "All Cylinder Details",
+                        fontSize = 20.sp,
                         fontWeight = FontWeight.Medium
                     )
                 },
@@ -130,9 +131,6 @@ fun AllCylindersScreen(
                 selectedFilter = selectedFilter,
                 onFilterSelected = { selectedFilter = it }
             )
-
-            // Statistics summary
-            SummaryCards(cylinderList)
 
             Spacer(modifier = Modifier.height(4.dp))
 
@@ -236,7 +234,7 @@ fun FilterChipRow(
     }
 }
 
-@Composable
+/*@Composable
 fun SummaryCards(cylinderList: List<CylinderDetailsModern>) {
     val issuedCount = cylinderList.count { it.status == "Issued" }
     val emptyCount = cylinderList.count { it.status == "Empty" }
@@ -267,9 +265,9 @@ fun SummaryCards(cylinderList: List<CylinderDetailsModern>) {
             modifier = Modifier.weight(1f)
         )
     }
-}
+}*/
 
-@Composable
+/*@Composable
 fun MiniStatCard(
     title: String,
     count: Int,
@@ -302,7 +300,7 @@ fun MiniStatCard(
             )
         }
     }
-}
+}*/
 
 @Composable
 fun CylinderCard(

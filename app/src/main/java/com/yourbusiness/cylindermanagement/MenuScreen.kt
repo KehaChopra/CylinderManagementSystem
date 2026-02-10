@@ -18,6 +18,14 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.yourbusiness.cylindermanagement.ui.theme.OxygenAccent
+import com.yourbusiness.cylindermanagement.ui.theme.BackgroundBlue
+import com.yourbusiness.cylindermanagement.ui.theme.CardWhite
+import com.yourbusiness.cylindermanagement.ui.theme.LightGray
+import com.yourbusiness.cylindermanagement.ui.theme.MediumGray
+import com.yourbusiness.cylindermanagement.ui.theme.TextGray
+import com.yourbusiness.cylindermanagement.ui.theme.DarkText
+import com.yourbusiness.cylindermanagement.ui.theme.BlueText
 
 data class MenuItem(
     val title: String,
@@ -56,13 +64,13 @@ fun MenuScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .background(Color(0xFFF5F5F5))
+                .background(BackgroundBlue) // was Color(0xFFF5F5F5)
         ) {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)
-                    .background(Color.White)
+                    .background(CardWhite) // was Color.White
             ) {
                 items(menuItems) { menuItem ->
                     MenuItemRow(
@@ -97,7 +105,7 @@ fun MenuTopBar(onNavigateBack: () -> Unit) {
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color(0xFF5B9BD5) // Light blue color
+            containerColor = OxygenAccent // Color(0xFF5E8BC7) — unchanged, already correct
         )
     )
 }
@@ -111,15 +119,15 @@ fun MenuItemRow(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick)
-            .padding(horizontal = 24.dp, vertical = 20.dp)
-            .background(Color.White),
+            .background(CardWhite)
+            .padding(horizontal = 24.dp, vertical = 20.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
             imageVector = menuItem.icon,
             contentDescription = menuItem.title,
             modifier = Modifier.size(24.dp),
-            tint = Color(0xFF404040)
+            tint = BlueText // was Color(0xFF404040)
         )
 
         Spacer(modifier = Modifier.width(20.dp))
@@ -127,13 +135,20 @@ fun MenuItemRow(
         Text(
             text = menuItem.title,
             fontSize = 16.sp,
-            color = Color(0xFF404040),
+            color = DarkText, // was Color(0xFF404040)
             modifier = Modifier.weight(1f)
+        )
+
+        Icon(
+            imageVector = Icons.Default.KeyboardArrowRight,
+            contentDescription = null,
+            modifier = Modifier.size(18.dp),
+            tint = MediumGray
         )
     }
 
-    Divider(
-        color = Color(0xFFE5E5E5),
+    HorizontalDivider(
+        color = LightGray, // was Color(0xFFE5E5E5)
         thickness = 1.dp
     )
 }
@@ -146,8 +161,8 @@ fun DevelopedByFooter() {
             .background(
                 brush = Brush.verticalGradient(
                     colors = listOf(
-                        Color(0xFFF5F5F5),
-                        Color(0xFFE8E8E8)
+                        BackgroundBlue,
+                        LightGray
                     )
                 )
             )
@@ -180,7 +195,7 @@ fun DevelopedByFooter() {
             Text(
                 text = "CODERS",
                 fontSize = 26.sp,
-                color = Color(0xFF5B9BD5), // Light blue
+                color = Color(0xFF5B9BD5), // original brand color
                 fontWeight = FontWeight.Bold,
                 letterSpacing = 1.sp
             )
