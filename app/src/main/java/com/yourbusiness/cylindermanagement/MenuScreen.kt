@@ -64,13 +64,13 @@ fun MenuScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .background(BackgroundBlue) // was Color(0xFFF5F5F5)
+                .background(Color(0xFFF5F5F5))
         ) {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)
-                    .background(CardWhite) // was Color.White
+                    .background(Color.White)
             ) {
                 items(menuItems) { menuItem ->
                     MenuItemRow(
@@ -105,7 +105,7 @@ fun MenuTopBar(onNavigateBack: () -> Unit) {
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = OxygenAccent // Color(0xFF5E8BC7) — unchanged, already correct
+            containerColor = OxygenAccent
         )
     )
 }
@@ -119,7 +119,7 @@ fun MenuItemRow(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick)
-            .background(CardWhite)
+            .background(Color.White)
             .padding(horizontal = 24.dp, vertical = 20.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -161,8 +161,8 @@ fun DevelopedByFooter() {
             .background(
                 brush = Brush.verticalGradient(
                     colors = listOf(
-                        BackgroundBlue,
-                        LightGray
+                        Color(0xFFF5F5F5),
+                        Color(0xFFE8E8E8)
                     )
                 )
             )
