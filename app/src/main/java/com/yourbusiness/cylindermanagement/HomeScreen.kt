@@ -21,11 +21,14 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -50,6 +53,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -165,57 +169,95 @@ fun HomeScreen1(
     }
 }
 
+data class FilterItem(
+    val label: String,
+    val icon: ImageVector
+)
+
 @Composable
 fun FilterSection(
     selectedFilter: String,
     onFilterSelected: (String) -> Unit
 ) {
-    val filters = listOf("Full", "Empty", "Issued", "Repair", "At Plant")
+    val filters = listOf(
+        FilterItem("Full", Icons.Default.Home),           // cylinder full  → Home icon
+        FilterItem("Empty", Icons.Default.ShoppingCart),  // empty          → ShoppingCart
+        FilterItem("Issued", Icons.Default.DateRange),    // issued/bill    → DateRange
+        FilterItem("Repair", Icons.Default.Build),        // repair/wrench  → Build
+        FilterItem("At Plant", Icons.Default.LocationOn)  // at plant       → LocationOn
+    )
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 12.dp, vertical = 8.dp),
-        horizontalArrangement = Arrangement.spacedBy(6.dp)
+            .padding(horizontal = 8.dp, vertical = 12.dp),
+        horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         filters.forEach { filter ->
-            FilterButton(
-                text = filter,
-                isSelected = selectedFilter == filter,
-                onClick = { onFilterSelected(filter) },
-                modifier = Modifier.weight(1f)
+            CircularFilterButton(
+                item = filter,
+                isSelected = selectedFilter == filter.label,
+                onClick = { onFilterSelected(filter.label) }
             )
         }
     }
 }
 
 @Composable
-fun FilterButton(
-    text: String,
+fun CircularFilterButton(
+    item: FilterItem,
     isSelected: Boolean,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    onClick: () -> Unit
 ) {
-    Button(
-        onClick = onClick,
-        modifier = modifier.height(44.dp),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = if (isSelected) SelectedBlue else CardWhite,
-            contentColor = if (isSelected) Color.White else DarkText
-        ),
-        shape = RoundedCornerShape(12.dp),
-        elevation = ButtonDefaults.buttonElevation(
-            defaultElevation = if (isSelected) 4.dp else 0.dp
-        ),
-        contentPadding = PaddingValues(horizontal = 4.dp, vertical = 8.dp)
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .clickable(onClick = onClick)
+            .padding(horizontal = 4.dp)
     ) {
+        // Outer glow ring when selected
+        Box(
+            modifier = Modifier
+                .size(62.dp)
+                .clip(CircleShape)
+                .background(
+                    if (isSelected)
+                        SelectedBlue.copy(alpha = 0.18f)
+                    else
+                        Color.Transparent
+                ),
+            contentAlignment = Alignment.Center
+        ) {
+            // Main circle
+            Box(
+                modifier = Modifier
+                    .size(52.dp)
+                    .clip(CircleShape)
+                    .background(
+                        if (isSelected) SelectedBlue else CardWhite
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = item.icon,
+                    contentDescription = item.label,
+                    tint = if (isSelected) Color.White else MediumGray,
+                    modifier = Modifier.size(24.dp)
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(6.dp))
+
         Text(
-            text = text,
-            fontSize = 12.sp,
-            fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Normal
+            text = item.label,
+            fontSize = 11.sp,
+            fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Normal,
+            color = if (isSelected) SelectedBlue else DarkText
         )
     }
 }
+
 
 @Composable
 fun GasCard(gas: GasType, onClick: () -> Unit) {
